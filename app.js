@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var session=require('express-session');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');//登陆路由
@@ -21,10 +21,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', index);
+app.use(session({
+    secret: 'orderPack', //为了安全性的考虑设置secret属性
+    cookie: {maxAge: 60 * 1000 * 30}, //设置过期时间 30分钟
+    resave: true, // 即使 session 没有被修改，也保存 session 值，默认为 true
+    saveUninitialized: false, //
+}));
+app.use('/', login);
 app.use('/users', users);
-app.use('/login', login);
+app.use('/index', index);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

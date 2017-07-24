@@ -1,5 +1,45 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+    .row(style="margin-top:10px;")
+        .col-md-2
+        .col-md-3(style="padding-top:5px;")
+            label 打包员：#{userInfo.realName}
+        .col-md-3(style="padding-top:5px;")
+            label.current_date 日期：2011-11-11
+        .col-md-4(style="padding-top:5px;")
+            label 隶属于：A仓
+            label&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            label 带打包：1234件
+
+    .row(style="border-bottom:1px solid #ccc;")
+        .col-md-2
+        .col-md-3(style="padding-top:5px;")
+            .form-inline
+                .form-group
+                    label 包裹数：
+                    select.form-control(style="height:30px;width:100px;")
+                        option 1
+                        option 22
+        .col-md-3(style="padding-top:5px;")
+            .form-inline
+                .form-group
+                    label 条码：
+                    input.form-control(placeholder='输入或扫描条码' style="height:30px;width:80%")
+        .col-md-4(style="padding-top:4px;margin-bottom:10px;")
+            .btn.btn-sm.btn-primary(style='width:50%') 下一批
+
+
+
+
+
+        script.
+            $(function(){
+                //当天系统时间
+                var curTime=new Date();
+                $(".current_date").html("日期："+curTime.getFullYear()+"-"+(curTime.getMonth()+1)+"-"+curTime.getDate());
+
+
+            })
+
+

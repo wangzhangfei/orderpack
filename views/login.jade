@@ -4,10 +4,56 @@
 extends layout
 
 block content
-    .div_login(style="border:1px solid red;width:200px;height:200px;top:30%;position:absolute; left:43%")
-        input(placeholder="登录账号")
-        br
-        input(placeholder="登陆密码")
-        br
-        button 登录
+    .form-horizontal(style="width:40%;text-align:center;margin-left:36%;margin-top:17%")
+        .form-group
+            label.col-sm-2(style="margin-top:7px;text-align:right;") 账号
+            .col-sm-5
+                input.form-control(placeholder="登录账号" autofocus="autofocus" name="loginName")
+        .form-group
+            label.col-sm-2(style="margin-top:7px;text-align:right;") 密码
+            .col-sm-5
+                input.form-control(placeholder="登录密码" name="loginPwd")
+        .form-group.title_alert_info(style="display:none")
+            label.col-sm-2
+            .col-sm-5
+                .alert.alert-danger(role="alert" style="padding:6px;margin-bottom:0px;") 登陆异常
+        .form-group
+            .col-sm-2
+            .col-sm-5
+                .btn-default.btn 登录
+    script.
+        $(function(){
+            //登陆按钮
+                $('.btn').click(function(){
+                    var loginName=$("input[name='loginName']").val();
+                    var loginPwd=$("input[name='loginPwd']").val();
+                    var reqData={"loginName":loginName,"loginPwd":loginPwd};
+                    $.ajax({
+                        type: "post",
+                        dataType: "json",
+                        url: '/30e77ba53855679c',
+                        data: reqData,
+                        success: function (data) {
+                            console.log(data);
+                            if(data!=null && data["status"]===200){
+                                window.location.href=window.location.origin+'/index';
+                            }else{
+                                $("input[name='loginName']").val("");
+                                $("input[name='loginPwd']").val("");
+                                $("input[name='loginName']").focus();
+                                $('.title_alert_info').fadeIn(1000);
+                                setTimeout(function(){
+                                    $('.title_alert_info').fadeOut(1000);
+                                },2000)
+                            }
+
+                        }, error: function (err) {
+                            console.log(err);
+
+                        }
+                    })
+
+                })
+        })
+
 
